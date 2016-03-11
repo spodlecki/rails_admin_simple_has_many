@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails_admin_simple_multiselect_widget (0.0.1)
+    rails_admin_simple_has_many (0.0.1)
       rails (~> 4.2.6)
 
 GEM
@@ -104,7 +104,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  rails_admin_simple_multiselect_widget!
+  rails_admin_simple_has_many!
   sqlite3
 
 BUNDLED WITH

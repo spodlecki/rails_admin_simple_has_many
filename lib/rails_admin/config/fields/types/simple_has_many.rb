@@ -1,6 +1,6 @@
 require 'rails_admin/config/fields/association'
 
-module RailsAdminSimpleMultiselectWidget
+module RailsAdminSimpleHasMany
   module Config
     module Fields
       module Types
