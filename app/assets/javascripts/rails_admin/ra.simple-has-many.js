@@ -70,13 +70,15 @@
       var widget = this;
 
       this.remove.click(function(e){
+        if ($(':selected', widget.selection).length == 0)
+          return
         selected_id = $(':selected', widget.selection)[0].value
         title = $(':selected', widget.selection)[0].title
         model_name = this.options.model_name
         delete_path = Routes.rails_admin_delete_path(model_name, selected_id)
 
         var answer = confirm ("Are you sure you want to delete '" + title + "' ? " +
-            "\nThis will take effect immediately  andCANNOT be undone");
+            "\nThis will take effect immediately and CANNOT be undone");
         if (answer)
         {
           $.ajax({
@@ -122,8 +124,13 @@ $(document).on('rails_admin.dom_ready', function(e, content) {
   content = content ? content : $('form');
   content.find('[data-simplehasmany]').each(function() {
     $(this).simpleHasMany($(this).data('options'));
-    if ($(this).parents("#modal").length) {
-      return $(this).siblings('.btn').remove();
+    if ($(this).parents("#modal").length) { //
+      return $(this).siblings('.create').each(function ()
+        {
+          $(this).attr('href', $(this).attr('data-link'))
+          $(this).attr('target', '_new')
+          $(this).removeAttr('data-link', '')
+        });
     } else {
       return $(this).parents('.control-group').first().remoteForm();
     }
