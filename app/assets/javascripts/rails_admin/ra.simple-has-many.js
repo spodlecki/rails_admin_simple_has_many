@@ -124,12 +124,22 @@ $(document).on('rails_admin.dom_ready', function(e, content) {
   content = content ? content : $('form');
   content.find('[data-simplehasmany]').each(function() {
     $(this).simpleHasMany($(this).data('options'));
-    if ($(this).parents("#modal").length) { //
+    if ($(this).parents("#modal").length) {
       return $(this).siblings('.create').each(function ()
         {
           $(this).attr('href', $(this).attr('data-link'))
           $(this).attr('target', '_new')
           $(this).removeAttr('data-link', '')
+          var edit_url = $(this).parent().find('select').first().data('options') && $(this).parent().find('select').first().data('options')['edit-url'];
+          if(typeof(edit_url) != 'undefined' && edit_url.length) {
+            $(document).on('dblclick', '.ra-multiselect option:not(:disabled)', function(e){
+              console.log(this.title)
+              var win = window.open(edit_url.replace('__ID__', this.value), '_blank');
+              if (win) { win.focus(); }
+            });
+          }
+
+
         });
     } else {
       return $(this).parents('.control-group').first().remoteForm();

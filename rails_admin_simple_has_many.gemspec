@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Aiman Najjar"]
   s.email       = ["aiman.najjar@hurranet.com"]
   s.homepage    = "http://github.com/aiman86/rails_admin_simple_has_many"
-  s.summary     = ""
+  s.summary     = "A RailsAdmin field type that renders a simpler has_many field"
   s.description = "Simple Has Many Widget is a RailsAdmin plugin that enables a simpler has_many field than original one (i.e. single list with support for inline add and delete)"
   s.license     = "MIT"
 
@@ -18,6 +18,6 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency 'rails', ['>= 4.0', '< 6']
-  s.add_dependency 'js-routes', '~> 1.2.4'
+  s.add_dependency 'js-routes', '~> 1.2', '>= 1.2.4'
 
 end
