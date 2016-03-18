@@ -40,9 +40,16 @@
       this.selection = $('<select class="form-control ra-multiselect-selection" multiple="multiple"></select>');
       this.columns.right.append(this.selection);
       this.selection.wrap('<div class="wrapper"/>');
-      this.remove = $('<br/><a style="margin-left:10px; margin-top:5px;" href="#" class="ra-multiselect-item-remove btn btn-danger"><i class=\"icon-plus icon-minus\"></i></a>');
+      this.remove = $('<br/><a style="margin-left:10px; margin-top:5px;" href="#" class="ra-multiselect-item-remove btn btn-sm btn-danger"><i class=\"icon-plus icon-minus\"></i></a>');
       help_block = this.wrapper.parent().find('.help-block')[0];
       this.remove.insertBefore(help_block)
+      if (this.options.sortable) {
+        this.up = $('<br/><a href="#" style="margin-left:10px; margin-top:5px;" class="ra-multiselect-item-up btn btn-default btn-xs"><span class="glyphicon glyphicon-arrow-up"></span></a>');
+        this.down = $('<br/><a href="#" style="margin-left:10px; margin-top:5px;" class="ra-multiselect-item-down btn btn-default btn-xs"><span class="glyphicon glyphicon-arrow-down"></span></a>');
+        this.up.insertBefore(help_block)
+        this.down.insertBefore(help_block)
+      }
+
       this.element.css({display: "none"});
       this.tooManyObjectsPlaceholder = $('<option disabled="disabled" />').text(RailsAdmin.I18n.t("too_many_objects"));
       this.noObjectsPlaceholder = $('<option disabled="disabled" />').text(RailsAdmin.I18n.t("no_objects"))
@@ -68,6 +75,20 @@
 
     _bindEvents: function() {
       var widget = this;
+
+      if(this.options.sortable) {
+        /* Move selection up */
+        this.up.click(function(e){
+          widget._move('up', $(':selected', widget.selection));
+          e.preventDefault();
+        });
+
+        /* Move selection down */
+        this.down.click(function(e){
+          widget._move('down', $(':selected', widget.selection));
+          e.preventDefault();
+        });
+      }
 
       this.remove.click(function(e){
         if ($(':selected', widget.selection).length == 0)
@@ -97,6 +118,32 @@
         }
         e.preventDefault();
       }.bind(this));
+    },
+
+    _move: function(direction, options) {
+      var widget = this;
+      if(direction == 'up') {
+        options.each(function(i, option) {
+          var prev = $(option).prev();
+          if (prev.length > 0) {
+            var el = widget.element.find('option[value="' + option.value + '"]');
+            var el_prev = widget.element.find('option[value="' + prev[0].value + '"]');
+            el_prev.before(el);
+            prev.before($(option));
+          }
+        });
+      } else {
+        $.fn.reverse = [].reverse; // needed to lower last items first
+        options.reverse().each(function(i, option) {
+          var next = $(option).next();
+          if (next.length > 0) {
+            var el = widget.element.find('option[value="' + option.value + '"]');
+            var el_next = widget.element.find('option[value="' + next[0].value + '"]');
+            el_next.after(el);
+            next.after($(option));
+          }
+        });
+      }
     },
 
     _deSelect: function(options) {
