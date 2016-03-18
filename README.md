@@ -4,7 +4,7 @@ RailsAdminSimpleHasMany is a field type for [Rails Admin](https://github.com/sfe
 
 Example of how the collection field would look like:
 
-![RailsAdminSimpleHasMany screenshot1](https://s3.amazonaws.com/aimannajjar.com/assets/images/portfolio/rails_admin_simple_has_many_sm.png)
+![RailsAdminSimpleHasMany screenshot1](https://s3.amazonaws.com/aimannajjar.com/assets/images/portfolio/rails_admin_simple_has_many_sm_orderable.png)
 
 ## Usage
 
@@ -20,8 +20,11 @@ Next, add the field as follows in your model
 rails_admin do
     field :players, :simple_has_many do
         help 'Please add 12 players'
+        orderable true
         required true
     end
 end
 ```
+
+Note: `orderable` enables UI controls to move items up and down but you still need to support it in your models, see [here](https://github.com/sferik/rails_admin/wiki/Has-many-%3Athrough-association) for an example using a similar widget.
 
