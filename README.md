@@ -9,7 +9,7 @@ Example of how the collection field would look like:
 ## Usage
 
 Simply add the following gem to your Gemfile:
-```code
+```ruby
 gem "rails_admin_simple_has_many"
 ```
 And then run `bundle` (note: `rails_admin` should already be in your Gemfile)
